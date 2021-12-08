@@ -19,10 +19,10 @@
 
     if(isset($_POST['submit']))  {
 
-        // honeypot validation
+        //Honeypot validation
         $speaker = $_POST['events_speaker'];
         if(!empty($speaker))  {
-            header("refresh:0");            // refreshes page if text field is not empty
+            header("refresh:0");            
         }
         else  {
             $eventName = $_POST['events_name'];
