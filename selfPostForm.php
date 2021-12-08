@@ -67,7 +67,7 @@
             }
             
             catch(PDOException $e)  {
-                $message = "There has been a problem. The system administrator has been contacted. Please try again later.";
+                $message = "Error. Please try again.";
                 error_log($e->getMessage());			
             }
         }
