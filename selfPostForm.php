@@ -110,7 +110,7 @@
                 padding:2.5%;
                 background-color:cornsilk;
                 font-weight:bold;
-                border-radius: 25px;
+                border-radius: 12.5px;
             }
 
             div:nth-child(4){
