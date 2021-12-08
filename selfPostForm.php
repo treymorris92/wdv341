@@ -189,12 +189,7 @@
             </form>
         
         </div>
-        
-        <footer class="text-center">
-    	
-            <p>Copyright &copy; <script> var d = new Date(); document.write (d.getFullYear());</script> All Rights Reserved</p>
-    
-        </footer>
+       
 
     </body>
 
