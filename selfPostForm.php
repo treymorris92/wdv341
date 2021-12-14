@@ -3,28 +3,26 @@
     $dateInserted = currentDateUSFormat();
     $dateUpdated = currentDateUSFormat();
 
-    function currentDateUSFormat()  {
+    function currentDateUSFormat(){
         $date = date_default_timezone_set("America/Chicago");   
-        $date = date("m/d/Y");                                  
+        $date = date("m/d/Y");                                   
         return $date;                                           
-        
     }
     
-    function currentDateSqlFormat()
-    {
+    function currentDateSqlFormat(){
         $date = date_default_timezone_set("America/Chicago");   
-        $date = date("Y-m-d");                                    
+        $date = date("Y-m-d");                                  
         return $date;                                           
     }
 
-    if(isset($_POST['submit']))  {
+    if(isset($_POST['submit'])){
 
-        //Honeypot validation
-        $speaker = $_POST['events_speaker'];
-        if(!empty($speaker))  {
-            header("refresh:0");            
+        // honeypot validation
+        $host = $_POST['events_speaker'];
+        if(!empty($host)){
+            header("refresh:0");    
         }
-        else  {
+        else{
             $eventName = $_POST['events_name'];
             $eventDescription = $_POST['events_description'];
             $eventPresenter = $_POST['events_presenter'];
@@ -35,15 +33,15 @@
             
             try {       
                 require 'dbConnect.php';	
-                
-                $sql = "INSERT INTO wdv341_events (";  
+            
+                $sql = "INSERT INTO wdv341_events (";   
                 $sql .= "events_name, ";
                 $sql .= "events_description, ";
                 $sql .= "events_presenter, ";
                 $sql .= "events_date, ";
                 $sql .= "events_time, ";
                 $sql .= "events_date_inserted, ";
-                $sql .= "events_updated_date ";
+                $sql .= "events_date_updated ";
                 $sql .= ") VALUES (";                   
                 $sql .= ":eventName, ";
                 $sql .= ":eventDescription, ";
@@ -52,7 +50,7 @@
                 $sql .= ":eventTime, ";
                 $sql .= ":eventDateInserted, ";
                 $sql .= ":eventDateUpdated)";
-            
+                
                 $stmt = $conn->prepare($sql);
                 
                 $stmt->bindParam(':eventName', $eventName);
@@ -63,12 +61,11 @@
                 $stmt->bindParam(':eventDateInserted', $eventDateInserted);
                 $stmt->bindParam(':eventDateUpdated', $eventDateUpdated);		
                 
-                $stmt->execute();
-                
+                $stmt->execute();	   
             }
             
-            catch(PDOException $e)  {
-                $message = "Error. Please try again.";
+            catch(PDOException $e){
+                $message = "There has been a problem. The system administrator has been contacted. Please try again later.";
                 error_log($e->getMessage());			
             }
         }
@@ -80,84 +77,86 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatable" content="IE=edge">
         <meta name="viewport" content="width=device-width, intial-scale=1.0">
-        <title>Self Posting Form Insert Event</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <title>Add Event Page</title>
+        <link rel="stylesheet" href="css/stylesheet.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <script>
+            function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+            }
+        </script>
         
         <style>
 
             body  {
-                background-color:dodgerblue;
+                background-color:#F9F9F9;
             }
-
-            h1  {
-                text-align:center;
-                padding-top:2.5%;
-                color:white;
-            }
-
-            h2  {
-                text-align:center;
-                padding:2.5%;
-                color:white;
-            }
-
-            #form {
-                width:960px;
-                margin:auto;
-                padding:2.5%;
-                background-color:cornsilk;
-                font-weight:bold;
-                border-radius: 12.5px;
-            }
-
+            
             div:nth-child(4){
                 display: none;
             }
 
-            @media screen and (max-width: 1080px)  {
-                #form  {
-                    width:600px;
-                }
+            input[type=submit],input[type=reset] {
+                background-color: #091534;
+                border: none;
+                border-radius: 32px;
+                color: white;
+                padding: 10px 37px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                margin: 2px 1px;
+                cursor: pointer;
             }
 
-            @media screen and (max-width: 720px)  {
-                #form  {
-                    width:75%;
-                    padding:5%;
-                }
+            /*
+            footer styling
+            */
+            footer  {
+                text-align:center;
+                font-weight:bold;
             }
-
+            
         </style>
-
     </head>
 
     <body>
-        
-        <h1>Self Posting Form Insert Event</h1>
-        <h2>WDV341 Intro to PHP</h2>
-        
-        <div id="form">
-            
-            <?php   
-                if(isset($_POST['submit']))  {
 
-                    echo
-                        "<p>
-                            <h3>Event has been saved!</h3>
-                            Event: $eventName <br>
-                            Description: $eventDescription <br>
-                            Presenter: $eventPresenter <br>
-                            Time: $eventTime <br>
-                            Date: $dateInserted <br>
+        <div class="topnav" id="myTopnav">
+        
+            <a href="admin.php">All Events</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        
+        </div>
+        
+        <h1 class="text-center">Add an Event</h1>
+        
+        <div class= "jumbotron col-md-4 mx-auto border border-dark rounded-lg m-4 p-4" style="background-color:#2596FF;">
+            <?php   
+                if(isset($_POST['submit'])){
+
+                    echo"<p><h3>Your event has been saved!</h3>
+                            Event: $eventName<br>
+                            Description: $eventDescription<br>
+                            Presenter: $eventPresenter<br>
+                            Time: $eventTime<br>
+                            Date: $dateInserted<br>
                         </p>";
             
                 }
-                else  {  
+                else{  
             ?>
-            
             <form name="eventsForm" id="eventsForm" method="post" action="selfPostForm.php">
 
                 <div class="form-group">
@@ -175,7 +174,6 @@
                     <input type="text" class="form-control form-control-sm" name="events_presenter" id="events_presenter"> 
                 </div>
 
-                <!--honeypot field-->
                 <div class="form-group">
                     <label for="events_speaker">Event Speaker: </label>
                     <input type="text" class="form-control form-control-sm" name="events_speaker" id="events_speaker">
@@ -201,14 +199,18 @@
                     <input type="text" class="form-control form-control-sm" name="events_updated_date" id="events_updated_date" value="<?php echo $dateUpdated ?>" readonly> 
                 </div>
                     
-                <div>
-                    <input type="submit" name="submit" id="submit" value="Insert Event">
-                    <input type="reset" name="Reset" id="button" value="Reset Form">
+                <div class="text-center" style="padding:2.5%;">
+                    <input type="submit" name="submit" id="submit" value="Add Event">
+                    <input type="reset" name="Reset" id="button" value="Clear Form">
                 </div>
-           
             </form>
-        
         </div>
+        
+        <footer>
+
+            <p>Trey Morris &copy;<?php echo date("Y");?></p>
+
+        </footer>
 
     </body>
 
